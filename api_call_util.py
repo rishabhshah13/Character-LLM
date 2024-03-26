@@ -5,7 +5,8 @@ from tenacity import (
     wait_random_exponential,
     stop_never
 )  # for exponential backoff
- 
+from openai import OpenAI
+
 proxy_url = "http://localhost:7890"
 api_base = "http://localhost:8000/v1"
 
@@ -45,10 +46,17 @@ def decoder_for_openai(model_name, input, max_tokens, temperature=0.7, top_p=0.9
     else:
         sys_prompt_content = "You are a helpful assistant."
 
+    # print(apikey)
+    # print('start')
+    # openai.api_key = apikey
+    client = OpenAI(base_url = 'http://localhost:11434/v1',api_key=apikey)
+
+    
     set_proxy(proxy_url)
-    response = openai.ChatCompletion.create(
-        api_key=apikey,
-        model=model_name,
+    # response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
+        # api_key=apikey,
+        model="llama2",
         messages=[
             {"role": "system", "content": sys_prompt_content},
             {"role": "user", "content": input},
@@ -61,6 +69,12 @@ def decoder_for_openai(model_name, input, max_tokens, temperature=0.7, top_p=0.9
         n=n,
         stop=stop,
     )
+    
+    response = response.dict()
+    
+    import time
+    time.sleep(8)
+    
     if n == 1:
         return get_output(response["choices"][0])
     return [get_output(res) for res in response['choices']]
