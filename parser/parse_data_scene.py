@@ -62,7 +62,7 @@ for ex in raw_data:
         out = parse_scene_info(t)
         if isinstance(out, str):
             if need_print:
-                print(ex['ID'])
+                print(ex['gen_answer_id'])
             counter[out] += 1
             continue
         out['source'] = f'seed_scene_{id}_c{cid}'

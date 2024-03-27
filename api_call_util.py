@@ -49,14 +49,16 @@ def decoder_for_openai(model_name, input, max_tokens, temperature=0.7, top_p=0.9
     # print(apikey)
     # print('start')
     # openai.api_key = apikey
-    client = OpenAI(base_url = 'http://localhost:11434/v1',api_key=apikey)
 
-    
+    # Open AI
+    client = OpenAI(api_key=apikey)    
     set_proxy(proxy_url)
+    
     # response = openai.ChatCompletion.create(
     response = client.chat.completions.create(
         # api_key=apikey,
-        model="llama2",
+        # model="llama2",
+        model=model_name,
         messages=[
             {"role": "system", "content": sys_prompt_content},
             {"role": "user", "content": input},
@@ -69,6 +71,48 @@ def decoder_for_openai(model_name, input, max_tokens, temperature=0.7, top_p=0.9
         n=n,
         stop=stop,
     )
+
+    # # Ollama
+    # client = OpenAI(
+    # base_url = 'http://localhost:11434/v1',
+    # api_key='ollama', # required, but unused
+    # )
+    # response = client.chat.completions.create(
+    #     model="gemma",
+    #     messages=[
+    #         {"role": "system", "content": sys_prompt_content},
+    #         {"role": "user", "content": input},
+    #         ],
+    #     max_tokens=max_tokens,
+    #     temperature=temperature,
+    #     top_p=top_p,
+    #     frequency_penalty=frequency_penalty,
+    #     presence_penalty=presence_penalty,
+    #     n=n,
+    #     stop=stop,
+    # )
+        
+
+    # from groq import Groq
+
+    # client = Groq(
+    #     api_key='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',
+    # )
+
+    # response = client.chat.completions.create(
+    #     model="mixtral-8x7b-32768",
+    # messages=[
+    #         {"role": "system", "content": sys_prompt_content},
+    #         {"role": "user", "content": input},
+    #         ],
+    #     max_tokens=max_tokens,
+    #     temperature=temperature,
+    #     top_p=top_p,
+    #     frequency_penalty=frequency_penalty,
+    #     presence_penalty=presence_penalty,
+    #     n=n,
+    #     stop=stop,
+    # )
     
     response = response.dict()
     

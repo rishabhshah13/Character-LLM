@@ -18,7 +18,7 @@ temperature = args.temperature
 model_name = args.model_name
 prompt_name = args.prompt_name
 output_path = f'./result/{now}/{prompt_name}/{model_name}-temp-{temperature}-char-{args.character}.jsonl'
-n_workers = 16
+n_workers = 30
 
 # chatgpt_system_prompt = f"""You are ChatGPT, a large language model trained by OpenAI, based on the GPT-3.5 architecture. Knowledge cutoff: 2021-09 Current date: {now}"""
 chatgpt_system_prompt = None
@@ -122,8 +122,12 @@ if len(prompt_ds) == 0:
 if args.debug:
     print(prompt_ds[0].keys())
     print(prompt_ds[0]['prompt'])
-    prompt_ds = prompt_ds[:10]
+    prompt_ds = prompt_ds[:30]
 progress_bar = tqdm(prompt_ds)
+
+
+
+# api_worker(prompt_ds, progress_bar, progress_lock, write_fn, apikey_list[0])
 
 
 assert len(apikey_list) >= 1, f"need at least one apikeys, find {len(apikey_list)}"

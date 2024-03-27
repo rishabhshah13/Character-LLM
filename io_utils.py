@@ -83,7 +83,7 @@ def load_seed_data_train(args):
         prompt_path = os.path.join(prompt_dir, 'prompt_agent_dialogue.txt')
         prompt = read_file(prompt_path)
         scene_path = os.path.join(args.data_path, f'generated_agent_scene_{agent_short_name}.json')
-        with open(scene_path, 'r') as fp:
+        with open(scene_path, 'r',encoding='utf-8') as fp:
             scene_data = json.load(fp)
         for scene in scene_data:
             questions.append(prompt.format(
