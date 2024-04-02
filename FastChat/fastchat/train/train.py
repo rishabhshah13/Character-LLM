@@ -322,6 +322,7 @@ def make_supervised_data_module(
     train_json = json.load(open(data_args.data_path, "r"))
     train_dataset = dataset_cls(train_json, tokenizer=tokenizer)
 
+
     if data_args.eval_data_path:
         eval_json = json.load(open(data_args.eval_data_path, "r"))
         eval_dataset = dataset_cls(eval_json, tokenizer=tokenizer)
@@ -368,7 +369,15 @@ def train():
 
     # Load data
     data_module = make_supervised_data_module(tokenizer=tokenizer, data_args=data_args)
-    
+    print(data_module)
+    # # Specify the file path
+    # file_path = 'data.json'
+
+    # # Save the dictionary to a JSON file
+    # with open(file_path, 'w') as json_file:
+    #     json.dump(data_module, json_file)
+
+    # print(f"Data saved to {file_path}")
     # Start trainner
     trainer = Trainer(
         model=model, tokenizer=tokenizer, args=training_args, **data_module

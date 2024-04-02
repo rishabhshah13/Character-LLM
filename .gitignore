@@ -1,0 +1,3 @@
+ckpt/*
+falcon-7b-sharded-bf16-finetuned-mental-health-conversational/*
+wandb/*
