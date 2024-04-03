@@ -14,6 +14,9 @@ import os
 os.environ["WANDB_DISABLED"] = "true"
 
 model_name = "ybelkada/falcon-7b-sharded-bf16" # sharded falcon-7b model
+# model_name = "mediocredev/open-llama-3b-v2-chat" # sharded falcon-7b model
+
+
 
 bnb_config = BitsAndBytesConfig(
     load_in_4bit=True,            # load model in 4-bit precision
@@ -59,7 +62,7 @@ peft_model = get_peft_model(model, peft_config)
 
 
 output_dir = "./falcon-7b-sharded-bf16-finetuned-mental-health-conversational"
-per_device_train_batch_size = 2 # reduce batch size by 2x if out-of-memory error
+per_device_train_batch_size = 4 # reduce batch size by 2x if out-of-memory error
 gradient_accumulation_steps = 6  # increase gradient accumulation steps by 2x if batch size is reduced
 optim = "paged_adamw_32bit" # activates the paging for better memory management
 save_strategy="steps" # checkpoint save strategy to adopt during training
@@ -67,7 +70,7 @@ save_steps = 10 # number of updates steps before two checkpoint saves
 logging_steps = 10  # number of update steps between two logs if logging_strategy="steps"
 learning_rate = 2e-4  # learning rate for AdamW optimizer
 max_grad_norm = 0.3 # maximum gradient norm (for gradient clipping)
-max_steps = 320        # training will happen for 320 steps
+max_steps = 11        # training will happen for 320 steps
 warmup_ratio = 0.03 # number of steps used for a linear warmup from 0 to learning_rate
 lr_scheduler_type = "cosine"  # learning rate scheduler
 

@@ -11,6 +11,7 @@ def parse_arguments():
     parser.add_argument("--model_name", type=str, help="", default="gpt-3.5-turbo")
     parser.add_argument("--debug", type=int, default=0, help="")
     parser.add_argument("--max_tokens", type=int, default=None, help="")
+    parser.add_argument("--prompt_cutoff", type=int, default=None, help="")
     
     parsed_args = parser.parse_args()
     

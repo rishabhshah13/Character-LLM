@@ -65,7 +65,7 @@ def load_seed_data_train(args):
     profile_path = os.path.join(profile_dir, f'wiki_{agent_short_name}.txt')
     agent_name, agent_profile = read_profile(profile_path)
     if dataset_name == 'gen_scene':
-        max_seed_prompts = 100
+        max_seed_prompts = 500
         prompt_path = os.path.join(prompt_dir, 'prompt_agent_scene.txt')
         prompt = read_file(prompt_path)
         dup_times = int(max_seed_prompts / len(agent_profile))

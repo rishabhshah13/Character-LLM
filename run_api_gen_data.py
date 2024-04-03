@@ -17,6 +17,7 @@ prompt_dir = ''
 temperature = args.temperature
 model_name = args.model_name
 prompt_name = args.prompt_name
+prompt_cutoff = args.prompt_cutoff
 output_path = f'./result/{now}/{prompt_name}/{model_name}-temp-{temperature}-char-{args.character}.jsonl'
 n_workers = 30
 
@@ -52,7 +53,7 @@ def api_worker(dataset, progress_bar, lock, write_fn, apikey):
             completion = decoder_for_openai(model_name, prompt, max_tokens=args.max_tokens, temperature=temperature, n=1, sys_prompt=chatgpt_system_prompt, apikey=apikey)
         except Exception as e:
             print(repr(e))
-            cur_task_done_retry = 100
+            cur_task_done_retry = 500
         assert isinstance(completion, str), type(completion)
         obj['completions'] = completion
         res = check_result(completion)
@@ -123,6 +124,9 @@ if args.debug:
     print(prompt_ds[0].keys())
     print(prompt_ds[0]['prompt'])
     prompt_ds = prompt_ds[:30]
+
+if prompt_cutoff:
+    prompt_ds = prompt_ds[:prompt_cutoff]
 progress_bar = tqdm(prompt_ds)
 
 
